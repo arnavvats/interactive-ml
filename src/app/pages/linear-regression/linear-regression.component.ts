@@ -59,17 +59,18 @@ export class LinearRegressionComponent implements OnInit {
     const [y, meanY, stdY] = this.meanStdTransform(this.y);
     // const x = this.x;
     // const y = this.y;
+    console.log(x, meanX, stdX);
+    console.log(y, meanY, stdY);
     this.linearRegressionService.
-    linearRegression(x, y, 0.1, 500)
+    linearRegression(x, y, 0.01, 500)
       .then((res: any) => {
-        interval(100).pipe(take(res.length))
+        interval(5).pipe(take(res.length))
           .subscribe(i => {
             const pred = res[i];
             // const xT = this.x;
             // const predT = pred;
             const xT = this.meanStdDeTransform(x, meanX, stdX);
             const predT = this.meanStdDeTransform(pred, meanY, stdY);
-            console.log(i);
             this.data = [{x: this.x, y: this.y, type: 'scatter',
               mode: 'markers', marker: {size: 16, color: this.colors}},
               {x: xT, y: predT, type: 'scatter', line: {shape: 'spline'}, mode: 'lines+markers'}];
@@ -79,7 +80,8 @@ export class LinearRegressionComponent implements OnInit {
   }
   meanStdTransform(arr) {
     const mean = arr.reduce((a, b) =>  a + b, 0) / this.x.length;
-    const std = arr.map(el => Math.pow(el - mean, 2)).reduce((a, b) => a + b, 0);
+    const stdSq = arr.map(el => Math.pow(el - mean, 2)).reduce((a, b) => a + b, 0) / arr.length;
+    const std = Math.pow(stdSq, 0.5);
     return [arr.map(el => (el - mean) / std), mean, std];
   }
   meanStdDeTransform(arr, mean, std) {

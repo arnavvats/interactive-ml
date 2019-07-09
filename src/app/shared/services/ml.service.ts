@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import * as tf from '@tensorflow/tfjs';
 import {from, Observable} from 'rxjs';
+import {debug} from 'util';
 @Injectable({
   providedIn: 'root'
 })
@@ -18,14 +19,23 @@ export class MlService {
   linearRegression(x_, y_, lr, iter) {
       const x = tf.tensor(x_);
       const y = tf.tensor(y_);
-      let w = tf.scalar(0.01 + Math.random() * 0.99);
-      let b = tf.scalar(0.01 + Math.random() * 0.99);
+      let w = tf.scalar(0.05);
+      let b = tf.scalar(0.05);
       const n = x_.length;
       const predictions = [];
       for (let i = 0 ; i < iter ; i++) {
         const pred = tf.add(tf.mul(x, w), b);
         const err = tf.div(tf.sub(pred, y), n);
         predictions.push(pred.data());
+        // Promise.all([pred.data(), err.data(), w.data(), b.data()]).then(res => {
+        //   console.log({
+        //     iter: i,
+        //     pred: res[0],
+        //     err: res[1],
+        //     w: res[2],
+        //     b: res[3]
+        //   });
+        // });
         b =  tf.sub(b, tf.mul(tf.sum(err), lr));
         w = tf.sub(w, tf.mul(tf.sum(tf.mul(err, x)), lr));
       }
