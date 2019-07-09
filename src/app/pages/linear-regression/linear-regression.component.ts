@@ -55,20 +55,20 @@ export class LinearRegressionComponent implements OnInit {
   }
 
   linearRegressor() {
-    // const [x, meanX, stdX] = this.meanStdTransform(this.x);
-    // const [y, meanY, stdY] = this.meanStdTransform(this.y);
-    const x = this.x;
-    const y = this.y;
+    const [x, meanX, stdX] = this.meanStdTransform(this.x);
+    const [y, meanY, stdY] = this.meanStdTransform(this.y);
+    // const x = this.x;
+    // const y = this.y;
     this.linearRegressionService.
     linearRegression(x, y, 0.1, 500)
       .then((res: any) => {
         interval(100).pipe(take(res.length))
           .subscribe(i => {
             const pred = res[i];
-            const xT = this.x;
-            const predT = pred;
-            // const xT = this.meanStdDeTransform(x, meanX, stdX);
-            // const predT = this.meanStdDeTransform(pred, meanY, stdY);
+            // const xT = this.x;
+            // const predT = pred;
+            const xT = this.meanStdDeTransform(x, meanX, stdX);
+            const predT = this.meanStdDeTransform(pred, meanY, stdY);
             console.log(i);
             this.data = [{x: this.x, y: this.y, type: 'scatter',
               mode: 'markers', marker: {size: 16, color: this.colors}},
