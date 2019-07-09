@@ -1,5 +1,6 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {LinearRegressionService} from './linear-regression.service';
+import {PlotlyService} from '../../shared/services/plotly.service';
 declare var Plotly;
 @Component({
   selector: 'app-linear-regression',
@@ -8,28 +9,49 @@ declare var Plotly;
 })
 export class LinearRegressionComponent implements OnInit {
   @ViewChild('plotlyGraph', {static: true}) plotlyGraphRef: ElementRef;
-  constructor(private linearRegressionService: LinearRegressionService) { }
+   layout = {
+    title: 'Linear Regression',
+    font: {size: 18},
+     xaxis: {range: [0, 100]},
+     yaxis: {range: [0, 100]}
+  };
+   colors = ['#00000', '#00000', '#00000',
+    '#00000', '#00000', '#00000'];
+   data;
+  graphEl;
+  x = [];
+  y = [];
+  constructor(private linearRegressionService: LinearRegressionService, private plotlyService: PlotlyService) { }
 
   ngOnInit() {
-  this.initializeGraph();
+    this.graphEl = this.plotlyGraphRef.nativeElement;
+    this.data = [{x: this.x, y: this.y, type: 'scatter',
+      mode: 'markers', marker: {size: 16, color: this.colors}}];
+    this.initializeGraph();
+    this.selectPoints();
   }
 
   initializeGraph() {
-    const graphEl = this.plotlyGraphRef.nativeElement;
-    const trace1 = {
-      x: [1, 2, 3, 4],
-      y: [10, 15, 13, 17],
-      type: 'scatter'
-    };
+    Plotly.newPlot(this.graphEl, this.data, this.layout, {responsive: true});
+  }
+  selectPoints() {
+    this.graphEl.addEventListener('click', evt => {
+      const {mx, cx, my, cy, xy1, xy2, yy1, yy2} = this.plotlyService.getOffsets(this.graphEl);
+      const xInDataCoord = Math.round(mx * evt.x + cx);
+      const yInDataCoord = Math.round(my * evt.y + cy);
+      if (xInDataCoord >= xy1 && xInDataCoord <= xy2 && yInDataCoord >= yy1 && yInDataCoord <= yy2) {
+      console.log(xInDataCoord, yInDataCoord);
+      this.x.push(xInDataCoord);
+      this.y.push(yInDataCoord);
+      this.layout.xaxis.range = [xy1, xy2];
+      this.layout.yaxis.range = [yy1, yy2];
+      Plotly.redraw(this.graphEl);
+      }
+  });
 
-    const trace2 = {
-      x: [1, 2, 3, 4],
-      y: [16, 5, 11, 9],
-      type: 'scatter'
-    };
-
-    const data = [trace1, trace2];
-    Plotly.newPlot(graphEl, data);
   }
 
+  linearRegressor() {
+
+  }
 }
