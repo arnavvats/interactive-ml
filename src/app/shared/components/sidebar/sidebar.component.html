@@ -1,0 +1,5 @@
+<div class="h-100 p-3 sidebar d-flex flex-column">
+  <a *ngFor="let algo of mlAlgorithms" class="mt-1 mb-1 btn" [routerLink]="algo.page">
+    {{algo.name}}
+  </a>
+</div>

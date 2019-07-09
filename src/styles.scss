@@ -1,1 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
+.btn:focus,.btn:active:focus,.btn.active:focus,
+.btn.focus,.btn:active.focus,.btn.active.focus {
+  box-shadow: none !important;
+}
