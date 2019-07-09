@@ -9,7 +9,7 @@ declare var Plotly;
 export class AppComponent implements OnInit{
 
   title = 'interactive-ml';
-  constructor(private sidebarService: SidebarService) {}
+  constructor(public sidebarService: SidebarService) {}
   ngOnInit(): void {
 
   }
