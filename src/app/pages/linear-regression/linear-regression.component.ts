@@ -64,7 +64,7 @@ export class LinearRegressionComponent implements OnInit {
     this.linearRegressionService.
     linearRegression(x, y, 0.01, 500)
       .then((res: any) => {
-        interval(5).pipe(take(res.length))
+        interval(20).pipe(take(res.length))
           .subscribe(i => {
             const pred = res[i];
             // const xT = this.x;

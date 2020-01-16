@@ -1,0 +1,12 @@
+<div #plotlyGraph></div>
+<div>
+  Clusters:
+  <input [(ngModel)]="n_clusters" type="tel">
+
+</div>
+<div>
+  Throttle value(ms):
+  <input [ngModel]="throttle_value" type="tel">
+
+</div>
+<button (click)="performKMeans()">Perform K-Means</button>

@@ -11,6 +11,8 @@ import { FooterComponent } from './shared/components/footer/footer.component';
 import {SidebarModule} from 'ng-sidebar';
 import { LogisticRegressionComponent } from './pages/logistic-regression/logistic-regression.component';
 import { AboutComponent } from './pages/about/about.component';
+import { KMeansComponent } from './pages/k-means/k-means.component';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -21,11 +23,14 @@ import { AboutComponent } from './pages/about/about.component';
     HomeComponent,
     FooterComponent,
     LogisticRegressionComponent,
-    AboutComponent
+    AboutComponent,
+    KMeansComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
+    FormsModule,
+    ReactiveFormsModule,
     SidebarModule.forRoot()
   ],
   providers: [],

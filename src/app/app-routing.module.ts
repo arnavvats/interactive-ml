@@ -4,6 +4,7 @@ import {LinearRegressionComponent} from './pages/linear-regression/linear-regres
 import {HomeComponent} from './pages/home/home.component';
 import {AboutComponent} from './pages/about/about.component';
 import {LogisticRegressionComponent} from './pages/logistic-regression/logistic-regression.component';
+import {KMeansComponent} from './pages/k-means/k-means.component';
 
 const routes: Routes = [
   {
@@ -11,6 +12,9 @@ const routes: Routes = [
   },
   {
     path: 'logistic-regression', component: LogisticRegressionComponent
+  },
+  {
+    path: 'k-means', component: KMeansComponent
   },
   {
   path: 'home', component: HomeComponent
